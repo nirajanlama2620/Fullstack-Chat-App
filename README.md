@@ -19,10 +19,13 @@ on Render for live access.
 🛠️ Tech Stack<br>
 <hr>
 Frontend<br>
-React.js<br>
-Axios<br>
-Socket.io-client<br>
-CSS / Tailwind (if used)<br>
+<ul>
+  <li>React.js<br></li>
+  <li>React.js<br></li>
+  <li>Axios<br></li>
+  <li>Socket.io-client<br></li>
+  <li>CSS / Tailwind (if used)<br></li>
+</ul>
 <hr>
 Backend<br>
 Node.js<br>
