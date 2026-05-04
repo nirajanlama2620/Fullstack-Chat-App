@@ -6,8 +6,18 @@ import { Link } from "react-router-dom";
 import AuthImagePattern from "../components/AuthImagePattern";
 import toast from "react-hot-toast";
 
+// This is a React functional component for a Sign Up page using useState hooks to manage form data and UI state.
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  /**
+   * showPassword → controls password visibility
+   * false → password is hidden initially 🔒
+   * setShowPassword → updates visibility state
+   */
+  /**
+   * formData = Holds the current state (data)
+   * setFormData = Function used to update formData
+   */
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",

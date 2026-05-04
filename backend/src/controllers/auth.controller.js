@@ -29,7 +29,8 @@ export const signup = async(req, res) => {
         if(newUser){
             // generate jwt token here
             generateToken(newUser._id,res)
-            await newUser.save();
+            await newUser.save();     // save the user to the database
+
             res.status(201).json({
                 _id: newUser._id,
                 fullName: newUser.fullName,
@@ -89,7 +90,7 @@ export const updateProfile = async (req, res) =>{
         if(!profilePic){
             res.status(400).json({ message: "Profile pic is required"});
         }
-       const uploadResponse = await cloudinary.uploader.upload(profilePic)
+        const uploadResponse = await cloudinary.uploader.upload(profilePic)
         const updateUser = await User.findByIdAndUpdate(userId, {profilePic:uploadResponse.secure_url}, {new:true})
 
         res.status(200).json(updateUser)

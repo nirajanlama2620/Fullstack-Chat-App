@@ -2,23 +2,37 @@ import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { Camera, Mail, User } from "lucide-react";
 
-const ProfilePage = () => {
+const ProfilePage = () => { 
+  /**
+   * authUser → current logged-in user
+   * isUpdatingProfile → loading state
+   * updateProfile → function to update user data in backend
+   */
   const { authUser, isUpdatingProfile, updateProfile } = useAuthStore();
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState(null); // Stores selected image preview
+                                                        // null = no image selected
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0];   // Gets file selected by user from input
+                                      // files[0] = first selected image
     if (!file) return;
 
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
+    //This code is used to read a file (like an image) and convert it into a base64 string.
+    const reader = new FileReader(); 
+    reader.readAsDataURL(file);       // Converts image file into base64 string
 
     reader.onload = async () => {
       const base64Image = reader.result;
-      setSelectedImg(base64Image);
-      await updateProfile({ profilePic: base64Image });
+      setSelectedImg(base64Image); // Shows image immediately in frontend (preview)
+      await updateProfile({ profilePic: base64Image });  // Sends image to backend ->  Updates user profile picture in database
     };
+    /**
+     * User selects image
+     * File is read using FileReader
+     * Converted to base64
+     * Preview shown in UI
+     * Sent to backend via updateProfile
+     */
   };
 
   return (
