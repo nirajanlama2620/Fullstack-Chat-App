@@ -6,8 +6,7 @@ on Render for live access.
 
 🔗 Live Demo: https://fullstack-chat-app-0sy4.onrender.com
 
-✨ Features
-
+✨ Features <br>
 🔐 User authentication (Signup/Login with JWT)
 💬 Real-time one-to-one messaging
 🟢 Online/offline user status
