@@ -14,35 +14,24 @@ const ChatContainer = () => {
     isMessagesLoading,
     selectedUser,
     subscribeToMessages,
-    unsubscribeFromMessages
+    unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
 
-  useEffect(
-    () => {
-      getMessages(selectedUser._id);
+  useEffect(() => {
+    getMessages(selectedUser._id);
 
-      subscribeToMessages();
+    subscribeToMessages();
 
-      return () => unsubscribeFromMessages();
-    },
-    [
-      selectedUser._id,
-      getMessages,
-      subscribeToMessages,
-      unsubscribeFromMessages
-    ]
-  );
+    return () => unsubscribeFromMessages();
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
-  useEffect(
-    () => {
-      if (messageEndRef.current && messages) {
-        messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-      }
-    },
-    [messages]
-  );
+  useEffect(() => {
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (
@@ -59,17 +48,11 @@ const ChatContainer = () => {
       <ChatHeader />
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map(message =>
-          // <div
-          //   key={message._id}
-          //   className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
-          //   ref={messageEndRef}
-          // >
+        {messages.map((message) => (
           <div
             key={message._id}
-            className={`chat ${String(message.senderId) === String(authUser._id)
-              ? "chat-end"
-              : "chat-start"}`}
+            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
+            ref={messageEndRef}
           >
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
@@ -89,20 +72,17 @@ const ChatContainer = () => {
               </time>
             </div>
             <div className="chat-bubble flex flex-col">
-              {message.image &&
+              {message.image && (
                 <img
                   src={message.image}
                   alt="Attachment"
                   className="sm:max-w-50 rounded-md mb-2"
-                />}
-              {message.text &&
-                <p>
-                  {message.text}
-                </p>}
+                />
+              )}
+              {message.text && <p>{message.text}</p>}
             </div>
           </div>
-        )}
-        <div ref={messageEndRef} />
+        ))}
       </div>
 
       <MessageInput />
