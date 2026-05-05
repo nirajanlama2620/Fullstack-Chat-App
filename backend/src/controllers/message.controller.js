@@ -95,8 +95,16 @@ export const sendMessages = async (req, res) => {
     await newMessage.save();  //store data in database and wait until it's completed
 
     const receiverSocketId = getReceiverSocketId(receiverId);
+      // You’re calling a helper function getReceiverSocketId
+      // It takes receiverId (user’s database ID)
+      // Returns the socket ID of that user (if they are online)
     if (receiverSocketId) {
+      // Checks if the receiver is currently connected
+      // If user is offline → receiverSocketId will be undefined/null
+      // Prevents errors or unnecessary emits
       io.to(receiverSocketId).emit("newMessage", newMessage);
+      // Sends an event "newMessage" only to that specific socket
+      // newMessage contains the message data (text, sender, timestamp, etc.)
     }
 
     res.status(201).json(newMessage); //Message saved successfully, here is the data

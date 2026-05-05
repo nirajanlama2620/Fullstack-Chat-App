@@ -108,9 +108,16 @@ export const useAuthStore = create((set, get) => ({
   },
 
   connectSocket: () => {
+    //Gets the currently logged-in user from the store.
     const { authUser } = get();
+    // Prevents unnecessary connections:
+    // If no user is logged in → don’t connect
+    // If socket is already connected → don’t reconnect
     if (!authUser || get().socket?.connected) return;
 
+    // Creates a new Socket.IO connection:
+    // Connects to your backend (BASE_URL)
+    // Sends userId as a query parameter (useful for identifying users on the server)
     const socket = io(BASE_URL, {
       query: {
         userId: authUser._id,
@@ -118,12 +125,21 @@ export const useAuthStore = create((set, get) => ({
     });
     socket.connect();
 
+    // Stores the socket instance in your global state
     set({ socket: socket });
 
+    // Listens for a server event called "getOnlineUsers"
+    // Receives a list of user IDs (userIds)
+    // Updates the state with currently online users
+    //  This is typically used for:
+    // - Showing online status
+    // - Chat apps (who’s active)
     socket.on("getOnlineUsers", (userIds) => {
       set({ onlineUsers: userIds });
     });
   },
+    //   Checks if socket exists and is connected
+    // If yes → disconnects it
   disconnectSocket: () => {
     if (get().socket?.connected) get().socket.disconnect();
   },
