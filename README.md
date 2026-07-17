@@ -169,3 +169,10 @@ https://github.com/nirajanlama2620
 <p>⭐ If you like this project, consider giving it a star!</p>
 
 </div>
+
+npm i express dotenv jsonwebtoken bcryptjs cookie-parser cloudinary socket.io
+npm i nodemon -D
+
+npm i react-router-dom react-hot-toast
+
+npm i lucide-react

@@ -13,10 +13,9 @@ const ProfilePage = () => {
                                                         // null = no image selected
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];   // Gets file selected by user from input
-                                      // files[0] = first selected image
+    const file = e.target.files[0];   // files[0] = first selected image
     if (!file) return;
-
+    
     //This code is used to read a file (like an image) and convert it into a base64 string.
     const reader = new FileReader(); 
     reader.readAsDataURL(file);       // Converts image file into base64 string

@@ -6,25 +6,18 @@ import { io } from "socket.io-client";
 const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:5001" : "/";
 
 export const useAuthStore = create((set, get) => ({
-  //Stores logged-in user data // null = no user logged in
-  authUser: null,
-  // Tracks signup process // true → signup in progress // false → idle
-  isSigningUp: false,
-  //  Tracks login process // Used to show loading spinner
-  isLoggingIn: false,
-  // Tracks profile update process  // Helps disable button / show loader
-  isUpdatingProfile: false,
-  // Checks if user is already logged in // Usually runs when app starts
-  isCheckingAuth: true,
-  // Stores list of currently online users // Used in chat apps (real-time status)
-  onlineUsers: [],
+  // Initial state
+  authUser: null,  //Stores logged-in user data // null = no user logged in
+  isSigningUp: false,  // Tracks signup process // true → signup in progress // false → idle
+  isLoggingIn: false,  //  Tracks login process // Used to show loading spinner
+  isUpdatingProfile: false,  // Tracks profile update process  // Helps disable button / show loader
+  isCheckingAuth: true,  // Checks if user is already logged in // Usually runs when app starts
+  onlineUsers: [],  // Stores list of currently online users // Used in chat apps (real-time status)
   socket: null,
 
 
   // checkAuth checks whether the user is already logged in or not when the app starts.
-  checkAuth: async () => {
-    try {
-      /**
+  /**
        * App opens
        * checkAuth() runs
        * Backend checks cookie/token
@@ -32,19 +25,16 @@ export const useAuthStore = create((set, get) => ({
        * If not → user set to null
        * Loading stops
        */
-
-      // Sends request to backend // Backend verifies user (usually via cookie/JWT)
-      const res = await axiosInstance.get("/auth/check");
-      // If SUCCESS 
-      // Stores user data in global state // Means user is logged in
-      set({ authUser: res.data });
+  checkAuth: async () => {
+    try {
+      const res = await axiosInstance.get("/auth/check");  // Sends request to backend // Backend verifies user (usually via cookie/JWT)
+      set({ authUser: res.data }); // If SUCCESS  Stores user data in global state // Means user is logged in
       get().connectSocket();
     } catch (error) {
       console.log("Error in checkAuth:", error);
       set({ authUser: null });
     } finally {
-      // Stops loading state // App knows auth check is finished
-      set({ isCheckingAuth: false });
+      set({ isCheckingAuth: false });  // Stops loading state // App knows auth check is finished
     }
   },
 

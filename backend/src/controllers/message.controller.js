@@ -25,16 +25,18 @@ export const getMessages = async (req, res) => {
   try {
     // Take id from req.params
     // Store it in a variable called userToChatId
-    const { id: userToChatId } = req.params;
+    const { id: userToChatId } = req.params;   //userToChatId is the ID of the user whose conversation you want to fetch.
     // Identify current logged-in user
     // Compare users (sender vs receiver)
     // Save messages in DB
     const myId = req.user._id;  // ID of the currently logged-in user
+    // req.user is usually added by an authentication middleware after verifying a JWT or session.
+    // _id is the logged-in user's MongoDB ObjectId.
 
     const messages = await Message.find({
-      $or: [
-        { senderId: myId, receiverId: userToChatId },
-        { senderId: userToChatId, receiverId: myId },
+      $or: [ 
+        { senderId: myId, receiverId: userToChatId }, // These are messages you sent to the other user.
+        { senderId: userToChatId, receiverId: myId }, // These are messages the other user sent to you.
       ],
     });
 
